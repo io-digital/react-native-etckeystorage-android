@@ -20,15 +20,11 @@ repositories {
     mavenLocal()
     jcenter()
     mavenCentral()
-
+    maven {url "https://jitpack.io"}
 }
 
 dependencies {
     provided 'com.facebook.react:react-native:0.+'
-
-    repositories {
-        maven {url "https://jitpack.io"}
-    }
     compile 'com.github.io-digital:ethereumj-android:master-SNAPSHOT'
 }
 
