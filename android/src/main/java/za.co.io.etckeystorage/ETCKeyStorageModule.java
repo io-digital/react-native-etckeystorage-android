@@ -58,7 +58,7 @@ public final class ETCKeyStorageModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     @SuppressWarnings("unused")
-    public void getRandomBytes(Promise promise) {
+    public void getRandomBytesPromise(Promise promise) {
         promise.resolve(this.randomBytes());
     }
 
