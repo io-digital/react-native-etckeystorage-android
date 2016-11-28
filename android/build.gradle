@@ -6,7 +6,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -25,6 +25,6 @@ repositories {
 dependencies {
     provided 'com.facebook.react:react-native:0.+'
     repositories {maven {url "https://jitpack.io"}}
-    compile 'com.github.io-digital:ethereumj-android:9894ad6fc3'
+    compile 'com.github.io-digital:ethereumj-android:0f1fd8ad71'
 }
 
