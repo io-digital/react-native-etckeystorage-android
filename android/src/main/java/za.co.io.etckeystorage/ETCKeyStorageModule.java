@@ -158,10 +158,9 @@ public final class ETCKeyStorageModule extends ReactContextBaseJavaModule {
             wm.putString("private", Hex.toHexString(kp.getPrivate().getEncoded()));
             promise.resolve(wm);
         } catch (
-                NoSuchProviderException |
-                        NoSuchAlgorithmException |
-                        InvalidAlgorithmParameterException e
-                ) {
+            NoSuchAlgorithmException |
+            InvalidAlgorithmParameterException e
+        ) {
             promise.reject(e);
         }
     }
