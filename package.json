@@ -1,6 +1,6 @@
 {
   "name": "react-native-etckeystorage-android",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "ethereum key management for android react-native",
   "main": "index.js",
   "scripts": {},
