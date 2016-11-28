@@ -138,7 +138,7 @@ public final class ETCKeyStorageModule extends ReactContextBaseJavaModule {
             ).setEndDate(
                     end.getTime()
             ).build();
-            KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC");
+            KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC", "AndroidKeyStore");
             kpg.initialize(new ECGenParameterSpec("secp256k1"));
             KeyPair kp = kpg.generateKeyPair();
 
@@ -147,6 +147,7 @@ public final class ETCKeyStorageModule extends ReactContextBaseJavaModule {
             wm.putString("private", kp.getPrivate().toString());
             promise.resolve(wm);
         } catch (
+            NoSuchProviderException |
             NoSuchAlgorithmException |
             InvalidAlgorithmParameterException e
         ) {
