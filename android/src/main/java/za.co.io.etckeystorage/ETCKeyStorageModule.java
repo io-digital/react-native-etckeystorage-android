@@ -116,32 +116,15 @@ public final class ETCKeyStorageModule extends ReactContextBaseJavaModule {
     @SuppressWarnings("unused")
     public void createKeyPromise(String alias, Promise promise) {
         try {
-//            Calendar start = new GregorianCalendar();
-//            Calendar end = new GregorianCalendar();
-//            end.add(Calendar.YEAR, 1);
-//            KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(
-//                    getReactApplicationContext()
-//            ).setAlias(
-//                    alias
-//            ).setSubject(
-//                    new X500Principal("CN=" + alias)
-//            ).setSerialNumber(
-//                    BigInteger.valueOf(1337)
-//            ).setStartDate(
-//                    start.getTime()
-//            ).setEndDate(
-//                    end.getTime()
-//            ).build();
-            KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC");
-//            kpg.initialize(spec);
+            KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC", "AndroidKeyStore");
             kpg.initialize(new ECGenParameterSpec("secp256k1"));
             KeyPair kp = kpg.generateKeyPair();
-
             WritableMap wm = Arguments.createMap();
             wm.putString("public", Hex.toHexString(kp.getPublic().getEncoded()));
             wm.putString("private", Hex.toHexString(kp.getPrivate().getEncoded()));
             promise.resolve(wm);
         } catch (
+            NoSuchProviderException |
             NoSuchAlgorithmException |
             InvalidAlgorithmParameterException e
         ) {
