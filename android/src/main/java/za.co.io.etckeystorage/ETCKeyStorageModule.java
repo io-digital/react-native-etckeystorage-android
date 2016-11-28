@@ -1,6 +1,5 @@
 package za.co.io.etckeystorage;
 
-import android.security.KeyPairGeneratorSpec;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -15,7 +14,6 @@ import org.spongycastle.jce.provider.BouncyCastleProvider;
 import org.spongycastle.util.encoders.Hex;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -28,11 +26,7 @@ import java.security.Security;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
 import java.security.spec.ECGenParameterSpec;
-import java.util.Calendar;
 import java.util.Enumeration;
-import java.util.GregorianCalendar;
-
-import javax.security.auth.x500.X500Principal;
 
 import za.co.io.ethereumj_android.crypto.ECKey;
 
@@ -122,29 +116,30 @@ public final class ETCKeyStorageModule extends ReactContextBaseJavaModule {
     @SuppressWarnings("unused")
     public void createKeyPromise(String alias, Promise promise) {
         try {
-            Calendar start = new GregorianCalendar();
-            Calendar end = new GregorianCalendar();
-            end.add(Calendar.YEAR, 1);
-            KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(
-                    getReactApplicationContext()
-            ).setAlias(
-                    alias
-            ).setSubject(
-                    new X500Principal("CN=" + alias)
-            ).setSerialNumber(
-                    BigInteger.valueOf(1337)
-            ).setStartDate(
-                    start.getTime()
-            ).setEndDate(
-                    end.getTime()
-            ).build();
+//            Calendar start = new GregorianCalendar();
+//            Calendar end = new GregorianCalendar();
+//            end.add(Calendar.YEAR, 1);
+//            KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(
+//                    getReactApplicationContext()
+//            ).setAlias(
+//                    alias
+//            ).setSubject(
+//                    new X500Principal("CN=" + alias)
+//            ).setSerialNumber(
+//                    BigInteger.valueOf(1337)
+//            ).setStartDate(
+//                    start.getTime()
+//            ).setEndDate(
+//                    end.getTime()
+//            ).build();
             KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC");
+//            kpg.initialize(spec);
             kpg.initialize(new ECGenParameterSpec("secp256k1"));
             KeyPair kp = kpg.generateKeyPair();
 
             WritableMap wm = Arguments.createMap();
-            wm.putString("public", kp.getPublic().toString());
-            wm.putString("private", kp.getPrivate().toString());
+            wm.putString("public", Hex.toHexString(kp.getPublic().getEncoded()));
+            wm.putString("private", Hex.toHexString(kp.getPrivate().getEncoded()));
             promise.resolve(wm);
         } catch (
             NoSuchAlgorithmException |
