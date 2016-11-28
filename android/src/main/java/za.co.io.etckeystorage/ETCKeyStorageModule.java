@@ -143,8 +143,8 @@ public final class ETCKeyStorageModule extends ReactContextBaseJavaModule {
             KeyPair kp = kpg.generateKeyPair();
 
             WritableMap wm = Arguments.createMap();
-            wm.putString("public", kp.getPublic().toString());
-            wm.putString("private", kp.getPrivate().toString());
+            wm.putString("public", Hex.toHexString(kp.getPublic().getEncoded()));
+            wm.putString("private", Hex.toHexString(kp.getPrivate().getEncoded()));
             promise.resolve(wm);
         } catch (
             NoSuchProviderException |
