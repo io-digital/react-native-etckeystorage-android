@@ -140,4 +140,30 @@ public final class ETCKeyStorageModule extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    @SuppressWarnings("unused")
+    public void createKeyNoKeyStorePromise(String alias, Promise promise) {
+        try {
+            KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC");
+            kpg.initialize(
+                    new KeyGenParameterSpec.Builder(
+                            alias, KeyProperties.PURPOSE_SIGN
+                    ).setAlgorithmParameterSpec(
+                            new ECGenParameterSpec("secp256k1")
+                    ).build()
+            );
+            KeyPair kp = kpg.generateKeyPair();
+            WritableMap wm = Arguments.createMap();
+            wm.putString("public", Hex.toHexString(kp.getPublic().getEncoded()));
+            wm.putString("private", Hex.toHexString(kp.getPrivate().getEncoded()));
+            promise.resolve(wm);
+        } catch (
+                NoSuchProviderException |
+                        NoSuchAlgorithmException |
+                        InvalidAlgorithmParameterException e
+                ) {
+            promise.reject(e);
+        }
+    }
+
 }
